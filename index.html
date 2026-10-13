@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seattle Grunge Studio</title>
+    <meta
+      name="description"
+      content="Generate original grunge-inspired lyrics and heavy guitar riffs."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">SEATTLE GRUNGE STUDIO</p>
+          <h1>Dirty Noise Generator</h1>
+        </div>
+        <button id="randomizeBtn" class="ghost-btn" type="button">Randomize</button>
+      </header>
+
+      <main class="layout">
+        <section class="panel controls" aria-label="Generator controls">
+          <h2>Session controls</h2>
+
+          <label>
+            Mood
+            <select id="mood">
+              <option value="rage">Rage</option>
+              <option value="melancholy">Melancholy</option>
+              <option value="suffocation">Suffocation</option>
+              <option value="drunk">Drunk on static</option>
+              <option value="rebellion">Rebellion</option>
+            </select>
+          </label>
+
+          <label>
+            Intensity
+            <input id="intensity" type="range" min="1" max="10" value="7" />
+          </label>
+
+          <label>
+            Key
+            <select id="key">
+              <option value="E">E</option>
+              <option value="A">A</option>
+              <option value="D">D</option>
+              <option value="G">G</option>
+              <option value="C">C</option>
+            </select>
+          </label>
+
+          <label>
+            Tempo
+            <select id="tempo">
+              <option value="70">70 BPM</option>
+              <option value="90">90 BPM</option>
+              <option value="110" selected>110 BPM</option>
+              <option value="130">130 BPM</option>
+              <option value="150">150 BPM</option>
+            </select>
+          </label>
+
+          <label>
+            Chorus hook
+            <input
+              id="hook"
+              type="text"
+              value="hold the line"
+              placeholder="e.g. hold the line"
+            />
+          </label>
+
+          <div class="button-row">
+            <button id="generateBtn" class="primary-btn" type="button">Generate</button>
+            <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
+            <button id="downloadBtn" class="secondary-btn" type="button">Download .txt</button>
+          </div>
+        </section>
+
+        <section class="panel output" aria-label="Generated output">
+          <div class="output-header">
+            <h2>Original lyric draft</h2>
+          </div>
+          <pre id="lyricsOutput" class="lyrics-box"></pre>
+
+          <div class="section-divider"></div>
+
+          <div class="output-header">
+            <h2>Guitar progression</h2>
+          </div>
+          <pre id="tabOutput" class="tab-box"></pre>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
