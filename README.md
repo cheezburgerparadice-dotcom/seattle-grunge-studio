@@ -2,36 +2,74 @@
 
 A simple GitHub Pages site for generating original grunge-inspired lyrics and guitar riffs with a dirty Seattle vibe.
 
-This version now includes a minimal chat UI that can connect to a serverless API to behave like a conversational assistant (ChatGPT-like). The repository still serves the static frontend via GitHub Pages; the chat backend must be deployed separately as a serverless function (Vercel recommended).
+This repo includes:
+- a static frontend that generates lyric and riff output
+- a chat window for a conversational songwriting assistant
+- a serverless OpenAI API route for the actual chat backend
 
-## What to deploy for chat
+## Recommended architecture
 
-This repo includes an example serverless endpoint for Vercel at `api/generate.js` (Node). The function forwards chat messages to the OpenAI Chat Completions API and returns the assistant reply.
+- GitHub Pages: static frontend hosting
+- Vercel: OpenAI backend hosting
 
-Do NOT commit your API key to the repo. Instead, set it in your deployment platform's environment variables.
+This is the best setup for a public site that behaves like a ChatGPT-style assistant while keeping the API key on the backend instead of in the browser.
 
-### Recommended quick path (Vercel + OpenAI)
+## Deploy the frontend to GitHub Pages
 
-1. Create a Vercel account and link this GitHub repository.
-2. In Vercel, add environment variables for the project:
-   - `OPENAI_API_KEY` = your OpenAI API key
-   - (optional) `OPENAI_MODEL` = the model name (defaults to `gpt-4o-mini` if unset)
-3. Deploy the Vercel project. The serverless function will be available at:
+1. Push these files to your GitHub repository.
+2. In GitHub, go to Settings → Pages.
+3. Set Source to `Deploy from a branch`.
+4. Choose the `main` branch and `/root` folder.
+5. Save.
 
+The site will publish at a URL like:
+
+```text
+https://<your-username>.github.io/seattle-grunge-studio/
 ```
-https://<your-vercel-domain>/api/generate
+
+## Deploy the chat backend to Vercel
+
+1. Create a Vercel account and import this repo.
+2. Add the following environment variables:
+   - `OPENAI_API_KEY`
+   - `OPENAI_MODEL` (optional; default is `gpt-4o-mini`)
+3. Deploy the project.
+4. Your chat endpoint will be available at:
+
+```text
+https://<your-project>.vercel.app/api/generate
 ```
 
-4. Keep GitHub Pages enabled for the static frontend, or host the frontend on Vercel as well (recommended if you want the chat to work without CORS issues). If you keep GitHub Pages, configure the `fetch` URL in `app.js` to call your Vercel endpoint (replace `/api/generate` with your full Vercel function URL).
+5. Update the `API_ENDPOINT` constant in `app.js` to match your Vercel deployment URL.
 
-## API contract
+Example:
 
-Frontend POST body: { messages: [{ role, content }, ...] }
-Response: { reply: "assistant text", raw: { ... } }
+```javascript
+const API_ENDPOINT = "https://seattle-grunge-studio.vercel.app/api/generate";
+```
 
-## Local testing
+## Important
 
-You can run a local server that proxies requests to OpenAI using a small Express app and your OPENAI_API_KEY set locally, but the recommended path is Vercel serverless for simplicity.
+Do not put your OpenAI API key in browser-side code. Keep it in Vercel environment variables only.
+
+## Local / preview
+
+If you want to preview the frontend locally:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open:
+
+```text
+http://localhost:8000
+```
+
+## Notes
+
+This is a starter product and not a full trained music model. It is a working public-facing songwriting app plus conversational assistant shell that can connect to OpenAI for actual chat generation.
 
 ## License
 

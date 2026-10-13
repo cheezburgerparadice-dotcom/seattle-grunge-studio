@@ -40,6 +40,8 @@ const keyProgressions = {
   C: ["C5", "G5", "Am5", "F5", "G5", "F5", "C5", "G5"]
 };
 
+const API_ENDPOINT = "https://YOUR_VERCEL_PROJECT_URL.vercel.app/api/generate";
+
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function generateLyrics() {
@@ -233,16 +235,18 @@ function renderChat(messages) {
 
 async function sendToApi(messages) {
   try {
-    const resp = await fetch('/api/generate', {
+    const response = await fetch(API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages })
     });
-    if (!resp.ok) {
-      const txt = await resp.text();
-      throw new Error(txt || 'API error');
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text || 'API error');
     }
-    const data = await resp.json();
+
+    const data = await response.json();
     return data.reply || JSON.stringify(data);
   } catch (err) {
     return `Error: ${err.message}`;
@@ -261,19 +265,16 @@ async function handleChatSubmit(e) {
   renderChat(messages);
   input.value = '';
 
-  // Build request: prepend system prompt and recent history
   const reqMessages = [{ role: 'system', content: systemPrompt }, ...messages.slice(-12)];
-  // Optimistic assistant bubble
   messages.push({ role: 'assistant', content: '...' });
   renderChat(messages);
 
   const reply = await sendToApi(reqMessages);
 
-  // replace last assistant placeholder
-  messages = loadChat();
-  messages.push({ role: 'assistant', content: reply });
-  saveChat(messages);
-  renderChat(messages);
+  const nextMessages = loadChat();
+  nextMessages.push({ role: 'assistant', content: reply });
+  saveChat(nextMessages);
+  renderChat(nextMessages);
 }
 
 /* Init and wiring */
@@ -285,7 +286,6 @@ document.getElementById('downloadBtn').addEventListener('click', downloadOutput)
 const chatForm = document.getElementById('chatForm');
 chatForm.addEventListener('submit', handleChatSubmit);
 
-// Load saved chat
 const initialMessages = loadChat();
 renderChat(initialMessages);
 
