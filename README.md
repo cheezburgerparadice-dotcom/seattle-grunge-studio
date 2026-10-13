@@ -2,46 +2,37 @@
 
 A simple GitHub Pages site for generating original grunge-inspired lyrics and guitar riffs with a dirty Seattle vibe.
 
-## What it does
+This version now includes a minimal chat UI that can connect to a serverless API to behave like a conversational assistant (ChatGPT-like). The repository still serves the static frontend via GitHub Pages; the chat backend must be deployed separately as a serverless function (Vercel recommended).
 
-- Generates original lyric drafts in a gritty, emotional, Seattle-grunge style
-- Builds a rough guitar chord/progression output
-- Lets you copy or download the generated text
-- Runs entirely as a static site for GitHub Pages
+## What to deploy for chat
 
-## Local preview
+This repo includes an example serverless endpoint for Vercel at `api/generate.js` (Node). The function forwards chat messages to the OpenAI Chat Completions API and returns the assistant reply.
 
-Open `index.html` in a browser, or run a local static server:
+Do NOT commit your API key to the repo. Instead, set it in your deployment platform's environment variables.
 
-```bash
-python3 -m http.server 8000
+### Recommended quick path (Vercel + OpenAI)
+
+1. Create a Vercel account and link this GitHub repository.
+2. In Vercel, add environment variables for the project:
+   - `OPENAI_API_KEY` = your OpenAI API key
+   - (optional) `OPENAI_MODEL` = the model name (defaults to `gpt-4o-mini` if unset)
+3. Deploy the Vercel project. The serverless function will be available at:
+
+```
+https://<your-vercel-domain>/api/generate
 ```
 
-Then visit:
+4. Keep GitHub Pages enabled for the static frontend, or host the frontend on Vercel as well (recommended if you want the chat to work without CORS issues). If you keep GitHub Pages, configure the `fetch` URL in `app.js` to call your Vercel endpoint (replace `/api/generate` with your full Vercel function URL).
 
-```text
-http://localhost:8000
-```
+## API contract
 
-## Deploy to GitHub Pages
+Frontend POST body: { messages: [{ role, content }, ...] }
+Response: { reply: "assistant text", raw: { ... } }
 
-1. Push these files to your repository.
-2. In GitHub, open the repository.
-3. Go to Settings → Pages.
-4. Set Source to `Deploy from a branch`.
-5. Choose the `main` branch and `/root` folder.
-6. Save.
+## Local testing
 
-GitHub will publish the site at a URL like:
-
-```text
-https://<username>.github.io/seattle-grunge-studio/
-```
-
-## Notes
-
-This version is intentionally static and frontend-only. It is a good starter for a GitHub Pages site. For a real model-powered version, you can later add a backend API or serverless function to connect to an LLM or a licensed fine-tuned model.
+You can run a local server that proxies requests to OpenAI using a small Express app and your OPENAI_API_KEY set locally, but the recommended path is Vercel serverless for simplicity.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT

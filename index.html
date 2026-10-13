@@ -77,6 +77,10 @@
             <button id="copyBtn" class="secondary-btn" type="button">Copy</button>
             <button id="downloadBtn" class="secondary-btn" type="button">Download .txt</button>
           </div>
+
+          <div style="margin-top:14px; font-size:0.9rem; color: #cdb89e;">
+            Tip: Use the chat below to iterate on sections, ask for chord changes, or request a melody.
+          </div>
         </section>
 
         <section class="panel output" aria-label="Generated output">
@@ -91,6 +95,17 @@
             <h2>Guitar progression</h2>
           </div>
           <pre id="tabOutput" class="tab-box"></pre>
+
+          <div class="section-divider"></div>
+
+          <div class="chat-shell">
+            <h2>Assistant chat</h2>
+            <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
+            <form id="chatForm" class="chat-form" action="#">
+              <input id="chatInput" class="chat-input" placeholder="Ask the assistant to refine the verse, change chords, or write a vocal melody..." autocomplete="off" />
+              <button id="chatSend" class="primary-btn" type="submit">Send</button>
+            </form>
+          </div>
         </section>
       </main>
     </div>

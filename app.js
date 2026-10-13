@@ -1,93 +1,34 @@
+/* Existing generator data and functions */
 const moodMaps = {
   rage: {
-    setup: [
-      "Static in the walls",
-      "Hammering through the dark",
-      "Spit in the wire",
-      "Burning under a dead sky"
-    ],
+    setup: ["Static in the walls", "Hammering through the dark", "Spit in the wire", "Burning under a dead sky"],
     verbs: ["shatter", "cut", "break", "crawl", "swell", "flood", "choke", "drag"],
     nouns: ["the room", "the noise", "the wire", "the town", "the ache", "the smoke", "my name", "the grave"],
-    endings: [
-      "I won't go down",
-      "I'm still breathing",
-      "I remember the spark",
-      "nothing left to lose",
-      "turn it inside out",
-      "I can feel the heat"
-    ]
+    endings: ["I won't go down", "I'm still breathing", "I remember the spark", "nothing left to lose", "turn it inside out", "I can feel the heat"]
   },
   melancholy: {
-    setup: [
-      "Rain under the door",
-      "Dust on the bedframe",
-      "Static between us",
-      "A cold light in the hallway"
-    ],
+    setup: ["Rain under the door", "Dust on the bedframe", "Static between us", "A cold light in the hallway"],
     verbs: ["linger", "break", "whisper", "fade", "lose", "wither", "drift", "hold"],
     nouns: ["the silence", "the old tape", "the empty room", "the train", "the bruise", "the floorboards", "your shadow", "the night"],
-    endings: [
-      "I still hear the echo",
-      "the dark keeps closing",
-      "I'm losing the shape",
-      "the world is split open",
-      "nothing moves but me",
-      "the last note stays"
-    ]
+    endings: ["I still hear the echo", "the dark keeps closing", "I'm losing the shape", "the world is split open", "nothing moves but me", "the last note stays"]
   },
   suffocation: {
-    setup: [
-      "Concrete in my lungs",
-      "Heat behind the teeth",
-      "The air tastes like rust",
-      "Panic under the skin"
-    ],
+    setup: ["Concrete in my lungs", "Heat behind the teeth", "The air tastes like rust", "Panic under the skin"],
     verbs: ["claw", "tighten", "scratch", "squeeze", "collapse", "drag", "smother", "pin"],
     nouns: ["my throat", "the ceiling", "the heart", "the city", "the lock", "the room", "my hands", "the page"],
-    endings: [
-      "I can't breathe",
-      "there is no exit",
-      "I feel the pressure",
-      "the walls close in",
-      "the sky turns black",
-      "nothing holds"
-    ]
+    endings: ["I can't breathe", "there is no exit", "I feel the pressure", "the walls close in", "the sky turns black", "nothing holds"]
   },
   drunk: {
-    setup: [
-      "A neon crawl through the alley",
-      "Mouthful of broken glass",
-      "The speakers hum in my veins",
-      "The room spins off the rails"
-    ],
+    setup: ["A neon crawl through the alley", "Mouthful of broken glass", "The speakers hum in my veins", "The room spins off the rails"],
     verbs: ["stumble", "glow", "taste", "fall", "bleed", "choke", "drift", "flicker"],
     nouns: ["the highway", "the liquor", "the smoke", "the siren", "the gutter", "the fury", "the teeth", "the night"],
-    endings: [
-      "I wanna burn louder",
-      "I feel alive for a second",
-      "the whole world is a blur",
-      "I keep racing the dark",
-      "the song won't end",
-      "I chase the spark"
-    ]
+    endings: ["I wanna burn louder", "I feel alive for a second", "the whole world is a blur", "I keep racing the dark", "the song won't end", "I chase the spark"]
   },
   rebellion: {
-    setup: [
-      "A boot in the door",
-      "A match in the rain",
-      "A knife in the wire",
-      "A fist through the frame"
-    ],
+    setup: ["A boot in the door", "A match in the rain", "A knife in the wire", "A fist through the frame"],
     verbs: ["break", "tear", "twist", "scar", "kick", "throw", "cut", "drag"],
     nouns: ["the system", "the silence", "the lock", "the glass", "the chain", "the road", "the crowd", "the wall"],
-    endings: [
-      "we are not afraid",
-      "we can still fight",
-      "we just keep coming back",
-      "the fire won't die",
-      "we cut the wire",
-      "the noise is ours"
-    ]
+    endings: ["we are not afraid", "we can still fight", "we just keep coming back", "the fire won't die", "we cut the wire", "the noise is ours"]
   }
 };
 
@@ -99,9 +40,7 @@ const keyProgressions = {
   C: ["C5", "G5", "Am5", "F5", "G5", "F5", "C5", "G5"]
 };
 
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
 function generateLyrics() {
   const mood = document.getElementById("mood").value;
@@ -163,9 +102,7 @@ function generateLyrics() {
   return { lyrics: lyricText, key, intensity, tempo };
 }
 
-function generateChordProgression(keyName) {
-  return keyProgressions[keyName] || keyProgressions.E;
-}
+function generateChordProgression(keyName) { return keyProgressions[keyName] || keyProgressions.E; }
 
 function generateTab(chords, intensity, keyName) {
   const chordMap = {
@@ -184,10 +121,7 @@ function generateTab(chords, intensity, keyName) {
 
   const lines = [];
   const progression = chords.slice(0, 8);
-
-  progression.forEach((chord, index) => {
-    lines.push(`| ${chordMap[chord] || "0---0---0---0"} | ${index + 1} ${chord} |`);
-  });
+  progression.forEach((chord, index) => { lines.push(`| ${chordMap[chord] || "0---0---0---0"} | ${index + 1} ${chord} |`); });
 
   const lead = [
     "e|----------------------|",
@@ -219,6 +153,7 @@ function generateTab(chords, intensity, keyName) {
   ].join("\n");
 }
 
+/* Rendering generator output */
 function renderOutput() {
   const data = generateLyrics();
   const chords = generateChordProgression(data.key);
@@ -228,17 +163,11 @@ function renderOutput() {
   document.getElementById("tabOutput").textContent = tab;
 }
 
+/* Controls */
 function randomizeControls() {
   const moodOptions = Object.keys(moodMaps);
   const keyOptions = ["E", "A", "D", "G", "C"];
-  const hooks = [
-    "hold the line",
-    "burn it down",
-    "taste the static",
-    "cut the wire",
-    "we keep breathing",
-    "fear the blackout"
-  ];
+  const hooks = ["hold the line", "burn it down", "taste the static", "cut the wire", "we keep breathing", "fear the blackout"];
 
   document.getElementById("mood").value = moodOptions[Math.floor(Math.random() * moodOptions.length)];
   document.getElementById("key").value = keyOptions[Math.floor(Math.random() * keyOptions.length)];
@@ -253,17 +182,12 @@ function copyOutput() {
   const tab = document.getElementById("tabOutput").textContent;
   const text = `LYRICS\n${lyrics}\n\nGUITAR\n${tab}`;
 
-  navigator.clipboard
-    .writeText(text)
-    .then(() => {
-      const button = document.getElementById("copyBtn");
-      const original = button.textContent;
-      button.textContent = "Copied!";
-      setTimeout(() => (button.textContent = original), 1200);
-    })
-    .catch(() => {
-      alert("Copy failed. Please try again.");
-    });
+  navigator.clipboard.writeText(text).then(() => {
+    const button = document.getElementById("copyBtn");
+    const original = button.textContent;
+    button.textContent = "Copied!";
+    setTimeout(() => (button.textContent = original), 1200);
+  }).catch(() => { alert("Copy failed. Please try again."); });
 }
 
 function downloadOutput() {
@@ -278,9 +202,91 @@ function downloadOutput() {
   URL.revokeObjectURL(url);
 }
 
-document.getElementById("generateBtn").addEventListener("click", renderOutput);
-document.getElementById("randomizeBtn").addEventListener("click", randomizeControls);
-document.getElementById("copyBtn").addEventListener("click", copyOutput);
-document.getElementById("downloadBtn").addEventListener("click", downloadOutput);
+/* Chat assistant code */
+const CHAT_STORAGE_KEY = 'sgs_chat_v1';
+const systemPrompt = `You are Seattle Grunge Studio, a songwriting assistant specialized in 1990s Seattle grunge. Use the provided context (mood, intensity, key, tempo) when asked. Always produce original lyrics, chord progressions, tab fragments, and short vocal melodies on request. Do NOT reproduce or paraphrase known copyrighted lyrics. When a user asks to build a song, return structured sections (Verse, Chorus, Bridge, Outro) and a small guitar riff in ASCII tab or clear chord list. Keep responses concise unless the user asks for more.`;
+
+function loadChat() {
+  try {
+    const raw = localStorage.getItem(CHAT_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveChat(messages) {
+  try { localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages)); } catch (e) {}
+}
+
+function renderChat(messages) {
+  const container = document.getElementById('chatMessages');
+  container.innerHTML = '';
+  messages.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'chat-bubble ' + (m.role === 'user' ? 'user' : 'assistant');
+    div.textContent = m.content;
+    container.appendChild(div);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendToApi(messages) {
+  try {
+    const resp = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages })
+    });
+    if (!resp.ok) {
+      const txt = await resp.text();
+      throw new Error(txt || 'API error');
+    }
+    const data = await resp.json();
+    return data.reply || JSON.stringify(data);
+  } catch (err) {
+    return `Error: ${err.message}`;
+  }
+}
+
+async function handleChatSubmit(e) {
+  e.preventDefault();
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  let messages = loadChat();
+  messages.push({ role: 'user', content: text });
+  saveChat(messages);
+  renderChat(messages);
+  input.value = '';
+
+  // Build request: prepend system prompt and recent history
+  const reqMessages = [{ role: 'system', content: systemPrompt }, ...messages.slice(-12)];
+  // Optimistic assistant bubble
+  messages.push({ role: 'assistant', content: '...' });
+  renderChat(messages);
+
+  const reply = await sendToApi(reqMessages);
+
+  // replace last assistant placeholder
+  messages = loadChat();
+  messages.push({ role: 'assistant', content: reply });
+  saveChat(messages);
+  renderChat(messages);
+}
+
+/* Init and wiring */
+document.getElementById('generateBtn').addEventListener('click', renderOutput);
+document.getElementById('randomizeBtn').addEventListener('click', randomizeControls);
+document.getElementById('copyBtn').addEventListener('click', copyOutput);
+document.getElementById('downloadBtn').addEventListener('click', downloadOutput);
+
+const chatForm = document.getElementById('chatForm');
+chatForm.addEventListener('submit', handleChatSubmit);
+
+// Load saved chat
+const initialMessages = loadChat();
+renderChat(initialMessages);
 
 renderOutput();
